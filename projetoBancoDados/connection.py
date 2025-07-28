@@ -37,6 +37,9 @@ def remove_pessoa_database(Pmatricula):
 	cursor.execute(comando)
 	cursor.commit()
 	print("remoção bem sucedida")
+     
+
+# ------------------------------- CRUD objetos -------------------------------
 
 def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa_entregou=None, Oreinvidicado=False):
     global conection
@@ -57,3 +60,21 @@ def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa
     except Exception as e:
         print(f"Erro ao inserir objeto: {e}")
         conection.rollback()
+        
+def remove_objeto_database(ObjetoID):
+    global conection
+    global cursor
+
+    comando = f"""DELETE FROM Objeto WHERE ObjetoID = {ObjetoID}"""
+
+    try:
+        cursor.execute(comando)
+        conection.commit()
+        if cursor.rowcount > 0:
+            print(f"Objeto com ID {ObjetoID} removido com sucesso.")
+        else:
+            print(f"Nenhum objeto encontrado com o ID {ObjetoID}.")
+    except Exception as e:
+        print(f"Erro ao remover objeto: {e}")
+        conection.rollback()
+

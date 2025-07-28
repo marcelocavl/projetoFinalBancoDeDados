@@ -27,6 +27,8 @@ def prompt_remove_pessoa():
 	PessoaMatricula=input("qual a matricula da pessoa que voce deseja remover? ")
 	remove_pessoa_database(PessoaMatricula)
 	print("finalizado")
+
+# ------------------------------- MENUS objetos -------------------------------
 		
 def prompt_add_objeto():
     print("\n--- Adicionar Novo Objeto Perdido ---")
@@ -54,3 +56,12 @@ def prompt_add_objeto():
     )
 
     print("Transação de adição de objeto finalizada.")
+
+def prompt_remove_objeto():
+    print("\n--- Remover Objeto Perdido ---")
+    try:
+        objeto_id = int(input("Qual o ID do objeto a ser removido? "))
+        remove_objeto_database(objeto_id)
+        print("Transação de remoção de objeto finalizada.")
+    except ValueError:
+        print("Entrada inválida. Por favor, digite um número inteiro para o ID.")
