@@ -130,3 +130,40 @@ def set_objeto_reivindicado(objeto_id):
     except Exception as e:
         print(f"Erro ao marcar objeto como 'Reivindicado': {e}")
         conection.rollback()
+        
+def read_and_print_objetos():
+    global conection
+    global cursor
+
+    comando = """SELECT * FROM Objeto"""
+
+    try:
+        cursor.execute(comando)
+        registros = cursor.fetchall()
+
+        if not registros:
+            print("Nenhum objeto encontrado no banco de dados.")
+            return
+
+        print("\n--- Lista de Objetos Perdidos ---")
+        print(f"{'ID':<5} | {'Título':<25} | {'Cor':<15} | {'Descrição':<30} | {'Data Encontrado':<20} | {'Local':<20} | {'Entregue Por':<15} | {'Reivindicado':<12}")
+        print("-" * 170)
+
+        for registro in registros:
+            objeto_id = registro[0]
+            titulo = registro[1]
+            cor = registro[2] if registro[2] is not None else "N/A"
+            descricao = registro[3]
+            data_encontrado = registro[4].strftime("%Y-%m-%d %H:%M:%S") if hasattr(registro[4], 'strftime') else str(registro[4]) # Formata data
+            local_encontrado = registro[5]
+            pessoa_entregou = registro[6] if registro[6] is not None else "N/A"
+            reinvidicado = "Sim" if registro[7] else "Não"
+
+            print(f"{objeto_id:<5} | {titulo:<25} | {cor:<15} | {descricao:<30} | {data_encontrado:<20} | {local_encontrado:<20} | {pessoa_entregou:<15} | {reinvidicado:<12}")
+
+        print("\nLeitura de objetos finalizada.")
+
+    except Exception as e:
+        print(f"Erro ao ler objetos do banco de dados: {e}")
+        conection.rollback()
+
