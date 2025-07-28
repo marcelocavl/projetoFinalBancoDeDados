@@ -113,3 +113,20 @@ def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
     except Exception as e:
         print(f"Erro ao atualizar objeto: {e}")
         conection.rollback()
+        
+def set_objeto_reivindicado(objeto_id):
+    global conection
+    global cursor
+
+    comando = f"""UPDATE Objeto SET Reinvidicado = TRUE WHERE ObjetoID = {objeto_id}"""
+
+    try:
+        cursor.execute(comando)
+        conection.commit()
+        if cursor.rowcount > 0:
+            print(f"Objeto com ID {objeto_id} marcado como 'Reivindicado'.")
+        else:
+            print(f"Nenhum objeto encontrado com o ID {objeto_id} para marcar como 'Reivindicado'.")
+    except Exception as e:
+        print(f"Erro ao marcar objeto como 'Reivindicado': {e}")
+        conection.rollback()
