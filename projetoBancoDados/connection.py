@@ -1,4 +1,5 @@
 import pyodbc
+from datetime import datetime
 
 conection=None
 cursor=None
@@ -37,4 +38,22 @@ def remove_pessoa_database(Pmatricula):
 	cursor.commit()
 	print("remoção bem sucedida")
 
+def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa_entregou=None, Oreinvidicado=False):
+    global conection
+    global cursor
 
+    data_encontrado = datetime.now().strftime('%Y-%m-%d')
+    cor_sql = f"'{Ocor}'" if Ocor else "NULL"
+    pessoa_entregou_sql = f"'{Opessoa_entregou}'" if Opessoa_entregou else "NULL"
+    reinvidicado_sql = 1 if Oreinvidicado else 0
+    comando = f"""INSERT INTO Objeto(Titulo, Cor, Descricao, Data_encontrado, Local_encontrado, Pessoa_entregou, Reinvidicado)
+                  VALUE
+                  ('{Otitulo}', {cor_sql}, '{Odescricao}', '{data_encontrado}', '{Olocal_encontrado}', {pessoa_entregou_sql}, {reinvidicado_sql})"""
+
+    try:
+        cursor.execute(comando)
+        conection.commit()
+        print("Inserção de objeto bem sucedida.")
+    except Exception as e:
+        print(f"Erro ao inserir objeto: {e}")
+        conection.rollback()

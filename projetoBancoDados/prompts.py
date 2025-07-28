@@ -28,3 +28,29 @@ def prompt_remove_pessoa():
 	remove_pessoa_database(PessoaMatricula)
 	print("finalizado")
 		
+def prompt_add_objeto():
+    print("\n--- Adicionar Novo Objeto Perdido ---")
+
+    # Campos obrigatórios
+    Otitulo = input("Qual o título/nome do objeto? (Ex: 'Chave', 'Celular', 'Mochila') ")
+    Odescricao = input("Descreva o objeto detalhadamente: ")
+    Olocal_encontrado = input("Onde o objeto foi encontrado? ")
+
+    # Campos opcionais
+    Ocor = input("Qual a cor do objeto? (Deixe em branco se não souber ou não se aplica) ")
+    if not Ocor:
+        Ocor = None
+    Opessoa_entregou = input("Matrícula da pessoa que entregou (opcional, deixe em branco se não houver): ")
+    if not Opessoa_entregou:
+        Opessoa_entregou = None
+
+    insert_objeto_database(
+        Otitulo=Otitulo,
+        Ocor=Ocor,
+        Odescricao=Odescricao,
+        Olocal_encontrado=Olocal_encontrado,
+        Opessoa_entregou=Opessoa_entregou,
+        Oreinvidicado=False
+    )
+
+    print("Transação de adição de objeto finalizada.")
