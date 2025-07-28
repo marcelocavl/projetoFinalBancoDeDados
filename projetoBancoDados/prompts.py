@@ -65,3 +65,42 @@ def prompt_remove_objeto():
         print("Transação de remoção de objeto finalizada.")
     except ValueError:
         print("Entrada inválida. Por favor, digite um número inteiro para o ID.")
+
+def prompt_edit_objeto():
+    print("\n--- Editar Objeto Perdido ---")
+    try:
+        objeto_id = int(input("Qual o ID do objeto a ser editado? "))
+
+        print("\nEscolha o campo a ser editado:")
+        print("1. Título")
+        print("2. Cor")
+        print("3. Descrição")
+        print("4. Local Encontrado")
+        print("5. Pessoa que Entregou")
+
+        opcao = input("Digite o número da opção: ")
+
+        campos_menu = {
+            "1": "titulo",
+            "2": "cor",
+            "3": "descricao",
+            "4": "local_encontrado",
+            "5": "pessoa_entregou"
+        }
+
+        campo_a_editar = campos_menu.get(opcao)
+
+        if not campo_a_editar:
+            print("Opção inválida. Por favor, digite um número de 1 a 5.")
+            return
+
+        novo_valor = input(f"Digite o novo valor para '{campo_a_editar}': ")
+
+        if novo_valor.strip() == "":
+            novo_valor = None
+
+        update_objeto_database(objeto_id, campo_a_editar, novo_valor)
+        print("Transação de edição de objeto finalizada.")
+    except ValueError:
+        print("Entrada inválida. Por favor, digite um número inteiro para o ID do objeto ou uma opção válida.")
+       

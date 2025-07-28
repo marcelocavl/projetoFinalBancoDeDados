@@ -78,3 +78,38 @@ def remove_objeto_database(ObjetoID):
         print(f"Erro ao remover objeto: {e}")
         conection.rollback()
 
+def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
+    global conection
+    global cursor
+
+    campos_permitidos = {
+        "titulo": "Titulo",
+        "cor": "Cor",
+        "descricao": "Descricao",
+        "local_encontrado": "Local_encontrado",
+        "pessoa_entregou": "Pessoa_entregou"
+    }
+
+    campo_db = campos_permitidos.get(campo_a_editar.lower())
+
+    if not campo_db:
+        print("Campo inválido ou não editável. Os campos editáveis são: titulo, cor, descricao, local_encontrado, pessoa_entregou.")
+        return
+
+    if campo_db in ["Cor", "Pessoa_entregou"] and (novo_valor is None or str(novo_valor).strip() == ""):
+        valor_para_sql = "NULL"
+    else:
+        valor_para_sql = f"'{novo_valor}'"
+
+    comando = f"""UPDATE Objeto SET {campo_db} = {valor_para_sql} WHERE ObjetoID = {objeto_id}"""
+
+    try:
+        cursor.execute(comando)
+        conection.commit()
+        if cursor.rowcount > 0:
+            print(f"Objeto com ID {objeto_id} atualizado com sucesso no campo '{campo_a_editar}'.")
+        else:
+            print(f"Nenhum objeto encontrado com o ID {objeto_id} para atualizar.")
+    except Exception as e:
+        print(f"Erro ao atualizar objeto: {e}")
+        conection.rollback()
