@@ -29,7 +29,8 @@ def prompt_remove_pessoa():
 	print("finalizado")
 
 # ------------------------------- MENUS objetos -------------------------------
-		
+
+# Menu de adicionar objeto 
 def prompt_add_objeto():
     print("\n--- Adicionar Novo Objeto Perdido ---")
 
@@ -57,6 +58,7 @@ def prompt_add_objeto():
 
     print("Transação de adição de objeto finalizada.")
 
+# Menu de remover objeto
 def prompt_remove_objeto():
     print("\n--- Remover Objeto Perdido ---")
     try:
@@ -66,6 +68,7 @@ def prompt_remove_objeto():
     except ValueError:
         print("Entrada inválida. Por favor, digite um número inteiro para o ID.")
 
+# Menu de editar objeto
 def prompt_edit_objeto():
     print("\n--- Editar Objeto Perdido ---")
     try:

@@ -41,6 +41,7 @@ def remove_pessoa_database(Pmatricula):
 
 # ------------------------------- CRUD objetos -------------------------------
 
+# Adicionar objeto ao banco de dados
 def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa_entregou=None, Oreinvidicado=False):
     global conection
     global cursor
@@ -60,7 +61,8 @@ def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa
     except Exception as e:
         print(f"Erro ao inserir objeto: {e}")
         conection.rollback()
-        
+
+# Remover objeto do banco de dados        
 def remove_objeto_database(ObjetoID):
     global conection
     global cursor
@@ -78,6 +80,7 @@ def remove_objeto_database(ObjetoID):
         print(f"Erro ao remover objeto: {e}")
         conection.rollback()
 
+# Editar campos do objeto no banco de dados
 def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
     global conection
     global cursor
@@ -113,7 +116,8 @@ def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
     except Exception as e:
         print(f"Erro ao atualizar objeto: {e}")
         conection.rollback()
-        
+
+# Marcar objeto como reivindicado      
 def set_objeto_reivindicado(objeto_id):
     global conection
     global cursor
@@ -130,7 +134,8 @@ def set_objeto_reivindicado(objeto_id):
     except Exception as e:
         print(f"Erro ao marcar objeto como 'Reivindicado': {e}")
         conection.rollback()
-        
+
+# Ler e imprimir todos os objetos do banco de dados        
 def read_and_print_objetos():
     global conection
     global cursor
@@ -166,4 +171,3 @@ def read_and_print_objetos():
     except Exception as e:
         print(f"Erro ao ler objetos do banco de dados: {e}")
         conection.rollback()
-
