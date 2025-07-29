@@ -172,6 +172,7 @@ def read_and_print_objetos():
         print(f"Erro ao ler objetos do banco de dados: {e}")
         conection.rollback()
 
+# Ler e imprimir um único objeto do banco de dados
 def read_and_print_unico_objeto(objeto_id):
     global conection
     global cursor
