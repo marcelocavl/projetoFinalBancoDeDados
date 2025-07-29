@@ -171,3 +171,45 @@ def read_and_print_objetos():
     except Exception as e:
         print(f"Erro ao ler objetos do banco de dados: {e}")
         conection.rollback()
+
+def read_and_print_unico_objeto(objeto_id):
+    global conection
+    global cursor
+
+    comando = f"""SELECT * FROM Objeto WHERE ObjetoID = {objeto_id}"""
+
+    try:
+        cursor.execute(comando)
+        registro = cursor.fetchone()
+
+        if not registro:
+            print(f"Nenhum objeto encontrado com o ID {objeto_id}.")
+            return
+
+        print(f"\n--- Detalhes do Objeto (ID: {objeto_id}) ---")
+        print(f"{'Campo':<20} | {'Valor'}")
+        print("-" * 50)
+
+        colunas = [
+            "ID do Objeto", "Título", "Cor", "Descrição",
+            "Data Encontrado", "Local Encontrado", "Entregue Por", "Reivindicado"
+        ]
+
+        valores = list(registro)
+        if hasattr(valores[4], 'strftime'):
+            valores[4] = valores[4].strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            valores[4] = str(valores[4])
+
+        valores[2] = valores[2] if valores[2] is not None else "N/A"
+        valores[6] = valores[6] if valores[6] is not None else "N/A"
+        valores[7] = "Sim" if valores[7] else "Não"
+
+        for i, campo in enumerate(colunas):
+            print(f"{campo:<20} | {valores[i]}")
+
+        print("\nLeitura de objeto finalizada.")
+
+    except Exception as e:
+        print(f"Erro ao ler objeto do banco de dados: {e}")
+        conection.rollback()
