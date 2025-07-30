@@ -4,22 +4,26 @@ from prompts_objetos import *
 
 
 def menu():
+	print("Ola usuario!")
+	("Bem vindo ao banco de dados dos achados e perdidos")
 	while True:
-		print("ola usuario!")
-		print("bem vindo ao banco de dados dos achados e perdidos")
-		print("[1]adicionar pessoa")
-		print("[2]remover pessoa")
-		print("[3]editar pessoa")
-		print("[4]sair")
-		opt=int(input("o que deseja fazer?"))
-		if opt==1:
-			prompt_add_pessoa()
-		if opt==2:
-			prompt_remove_pessoa()
-		if opt==3:
-			 prompt_update_pessoa()
-		if opt==4:
-			 break
-
-
-
+		print("\n--- ACHADOS E PERDIDOS ---")
+		print("[1] Pessoas")
+		print("[2] Objetos")
+		print("[3] Ocorrencias de perda")
+		print("[4] Reivindicações")
+		print("[5] sair")
+		opt = input("Qual registro deseja acessar? ")
+		if opt=="1":
+			menu_objetos()
+		elif opt=="2":
+			menu_objetos()
+		elif opt=="3":
+			menu_objetos()
+		elif opt=="4":
+			menu_objetos()
+		elif opt=="5":
+			print("Obrigado por usar o sistema de achados e perdidos")
+			break
+		else:
+			print("Opção inválida. Por favor, escolha uma opção válida.")

@@ -1,11 +1,11 @@
 from connection import *
 
 # ------------------------------- CRUD objetos -------------------------------
+
 # Adicionar objeto ao banco de dados
 def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa_entregou=None, Oreinvidicado=False):
-		from connection import cursor_var
-		from connection import connection
-
+    from connection import cursor_var
+    from connection import connection
 
     data_encontrado = datetime.now().strftime('%Y-%m-%d')
     cor_sql = f"'{Ocor}'" if Ocor else "NULL"
@@ -25,9 +25,8 @@ def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa
 
 # Remover objeto do banco de dados        
 def remove_objeto_database(ObjetoID):
-		from connection import cursor_var
-		from connection import connection
-
+    from connection import cursor_var
+    from connection import connection
 
     comando = f"""DELETE FROM Objeto WHERE ObjetoID = {ObjetoID}"""
 
@@ -44,9 +43,8 @@ def remove_objeto_database(ObjetoID):
 
 # Editar campos do objeto no banco de dados
 def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
-		from connection import cursor_var
-		from connection import connection
-
+    from connection import cursor_var
+    from connection import connection
 
     campos_permitidos = {
         "titulo": "Titulo",
@@ -82,9 +80,8 @@ def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
 
 # Marcar objeto como reivindicado      
 def set_objeto_reivindicado(objeto_id):
-		from connection import cursor_var
-		from connection import connection
-
+    from connection import cursor_var
+    from connection import connection
 
     comando = f"""UPDATE Objeto SET Reinvidicado = TRUE WHERE ObjetoID = {objeto_id}"""
 
@@ -101,9 +98,8 @@ def set_objeto_reivindicado(objeto_id):
 
 # Ler e imprimir todos os objetos do banco de dados        
 def read_and_print_objetos():
-		from connection import cursor_var
-		from connection import connection
-
+    from connection import cursor_var
+    from connection import connection
 
     comando = """SELECT * FROM Objeto"""
 
@@ -135,4 +131,47 @@ def read_and_print_objetos():
 
     except Exception as e:
         print(f"Erro ao ler objetos do banco de dados: {e}")
+        connection.rollback()
+
+# Ler e imprimir um único objeto do banco de dados
+def read_and_print_unico_objeto(objeto_id):
+    from connection import cursor_var
+    from connection import connection
+
+    comando = f"""SELECT * FROM Objeto WHERE ObjetoID = {objeto_id}"""
+
+    try:
+        cursor_var.execute(comando)
+        registro = cursor_var.fetchone()
+
+        if not registro:
+            print(f"Nenhum objeto encontrado com o ID {objeto_id}.")
+            return
+
+        print(f"\n--- Detalhes do Objeto (ID: {objeto_id}) ---")
+        print(f"{'Campo':<20} | {'Valor'}")
+        print("-" * 50)
+
+        colunas = [
+            "ID do Objeto", "Título", "Cor", "Descrição",
+            "Data Encontrado", "Local Encontrado", "Entregue Por", "Reivindicado"
+        ]
+
+        valores = list(registro)
+        if hasattr(valores[4], 'strftime'):
+            valores[4] = valores[4].strftime("%Y-%m-%d %H:%M:%S")
+        else:
+            valores[4] = str(valores[4])
+
+        valores[2] = valores[2] if valores[2] is not None else "N/A"
+        valores[6] = valores[6] if valores[6] is not None else "N/A"
+        valores[7] = "Sim" if valores[7] else "Não"
+
+        for i, campo in enumerate(colunas):
+            print(f"{campo:<20} | {valores[i]}")
+
+        print("\nLeitura de objeto finalizada.")
+
+    except Exception as e:
+        print(f"Erro ao ler objeto do banco de dados: {e}")
         connection.rollback()
