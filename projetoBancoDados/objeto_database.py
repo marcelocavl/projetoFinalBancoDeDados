@@ -17,11 +17,11 @@ def insert_objeto_database(Otitulo, Ocor, Odescricao, Olocal_encontrado, Opessoa
 
     try:
         cursor_var.execute(comando)
-        connection.commit()
+        cursor_var.commit()
         print("Inserção de objeto bem sucedida.")
     except Exception as e:
         print(f"Erro ao inserir objeto: {e}")
-        connection.rollback()
+        cursor_var.rollback()
 
 # Remover objeto do banco de dados        
 def remove_objeto_database(ObjetoID):
@@ -32,14 +32,14 @@ def remove_objeto_database(ObjetoID):
 
     try:
         cursor_var.execute(comando)
-        connection.commit()
+        cursor_var.commit()
         if cursor_var.rowcount > 0:
             print(f"Objeto com ID {ObjetoID} removido com sucesso.")
         else:
             print(f"Nenhum objeto encontrado com o ID {ObjetoID}.")
     except Exception as e:
         print(f"Erro ao remover objeto: {e}")
-        connection.rollback()
+        cursor_var.rollback()
 
 # Editar campos do objeto no banco de dados
 def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
@@ -69,14 +69,14 @@ def update_objeto_database(objeto_id, campo_a_editar, novo_valor):
 
     try:
         cursor_var.execute(comando)
-        connection.commit()
+        cursor_var.commit()
         if cursor_var.rowcount > 0:
             print(f"Objeto com ID {objeto_id} atualizado com sucesso no campo '{campo_a_editar}'.")
         else:
             print(f"Nenhum objeto encontrado com o ID {objeto_id} para atualizar.")
     except Exception as e:
         print(f"Erro ao atualizar objeto: {e}")
-        connection.rollback()
+        cursor_var.rollback()
 
 # Marcar objeto como reivindicado      
 def set_objeto_reivindicado(objeto_id):
@@ -87,14 +87,14 @@ def set_objeto_reivindicado(objeto_id):
 
     try:
         cursor_var.execute(comando)
-        connection.commit()
+        cursor_var.commit()
         if cursor_var.rowcount > 0:
             print(f"Objeto com ID {objeto_id} marcado como 'Reivindicado'.")
         else:
             print(f"Nenhum objeto encontrado com o ID {objeto_id} para marcar como 'Reivindicado'.")
     except Exception as e:
         print(f"Erro ao marcar objeto como 'Reivindicado': {e}")
-        connection.rollback()
+        cursor_var.rollback()
 
 # Ler e imprimir todos os objetos do banco de dados        
 def read_and_print_objetos():
@@ -131,7 +131,7 @@ def read_and_print_objetos():
 
     except Exception as e:
         print(f"Erro ao ler objetos do banco de dados: {e}")
-        connection.rollback()
+        cursor_var.rollback()
 
 # Ler e imprimir um único objeto do banco de dados
 def read_and_print_unico_objeto(objeto_id):
@@ -174,4 +174,4 @@ def read_and_print_unico_objeto(objeto_id):
 
     except Exception as e:
         print(f"Erro ao ler objeto do banco de dados: {e}")
-        connection.rollback()
+        cursor_var.rollback()
