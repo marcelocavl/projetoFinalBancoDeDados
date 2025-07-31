@@ -1,55 +1,83 @@
 from pessoa_database import *
 
+
+# Menu de Opções de Pessoas
+def menu_pessoas():
+		while True:
+				print("\n--- PESSOAS ---")
+				print("[1] Adicionar Pessoa")
+				print("[2] Remover Pessoa")
+				print("[3] Editar Pessoa")
+				print("[4] Listar Pessoas")
+				print("[5] Voltar ao Menu Principal")
+				opt = input("Escolha uma opção: ")
+				if opt == "1":
+						prompt_add_pessoa()
+				elif opt == "2":
+						prompt_remove_pessoa()
+				elif opt == "3":
+						prompt_edit_pessoa()
+				elif opt == "4":
+						read_and_print_pessoas()
+				elif opt == "5":
+						break
+				else:
+						print("Opção inválida. Por favor, escolha uma opção válida.")
+
+# Menu de adicionar pessoa
 def prompt_add_pessoa():
-	PessoaMatricula=input("qual a matricula da pessoa a ser adicionada? ")
-	Pnome=input("qual o nome da pessoa a ser adicionada? ")
-	Pcontato=input("qual o numero de contato da pessoa a ser adicionada? ")	
+	print("\n--- Adicionar Nova Pessoa ---")
+
+	PessoaMatricula=input("Qual a matricula da pessoa a ser adicionada? ")
+	Pnome=input("Qual o nome da pessoa a ser adicionada? ")
+	Pcontato=input("Qual o numero de contato da pessoa a ser adicionada? ")	
 
 	insert_pessoa_database(
 		PessoaMatricula,
 		Pnome,
 		Pcontato
 	)		
+	print("Transação finalizada")		
 
-	print("transação finalizada")		
-
-def prompt_update_pessoa():
-
-
+def prompt_edit_pessoa():
 		print("\n--- Editar Pessoa ---")
+		try:
+			read_and_print_pessoas()
+			pessoa_matricula=input("Qual a matricula da pessoa a ser editada? ")
 
-		#dicionario informando os campos na entidade Pessoa
-		campos_menu={
-			"1": "PessoaMatricula",
-			"2": "Pnome",
-			"3": "Contato",
-		}
+			read_and_print_unica_pessoa(pessoa_matricula)
 
-		pessoa_matricula=input("qual a matricula da pessoa a ser editada")
+			print("\nEscolha o campo a ser editado:")
+			print("[1] Matricula")
+			print("[2] Nome")
+			print("[3] Contato")
+		
+			opcao=input("Digite o número da opção: ")
+			
+			#dicionario informando os campos na entidade Pessoa
+			campos_menu={
+				"1": "PessoaMatricula",
+				"2": "Pnome",
+				"3": "Contato",
+			}
 
-		print("\nEscolha o campo a ser editado:")
-		print("1. PessoaMatricula")
-		print("2. Pnome")
-		print("3. Contato")
-	
-		opt=input("escolha uma opcao");
+			campo=campos_menu.get(opcao)	
 
-		campo=campos_menu.get(opt)	
+			novo_valor=input(f"Digite o novo valor para {campo}: ")
 
-		novo_valor=input(f"digite o novo valor a ser escrito em {campo} ")
+			if novo_valor.strip() == "":
+				novo_valor = None
 
-		if novo_valor.strip() == "":
-			novo_valor = None
-
-		update_pessoa_database(pessoa_matricula,campo,novo_valor)
-
-
+			update_pessoa_database(pessoa_matricula,campo,novo_valor)
+		except ValueError:
+			print("Entrada inválida. Por favor, tente novamente.")
 
 
 def prompt_remove_pessoa():
-	PessoaMatricula=input("qual a matricula da pessoa que voce deseja remover? ")
+	print("\n--- Remover Pessoa ---")
+	PessoaMatricula=input("Qual a matricula da pessoa que voce deseja remover? ")
 	remove_pessoa_database(
 		PessoaMatricula
 	)
-	print("finalizado")
+	print("Transação finalizada")
       

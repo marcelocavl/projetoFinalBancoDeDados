@@ -15,7 +15,7 @@ def menu():
 		print("[5] sair")
 		opt = input("Qual registro deseja acessar? ")
 		if opt=="1":
-			menu_objetos()
+			menu_pessoas()
 		elif opt=="2":
 			menu_objetos()
 		elif opt=="3":
