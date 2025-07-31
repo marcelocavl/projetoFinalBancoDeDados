@@ -2,7 +2,7 @@ from connection import *
 from prompts_pessoas import *
 from prompts_objetos import *
 from prompts_ocorrencias import *
-
+from prompts_reivindicacao import *
 
 def menu():
 	print("Ola usuario!")
@@ -22,7 +22,7 @@ def menu():
 		elif opt=="3":
 			menu_ocorrencias()
 		elif opt=="4":
-			menu_objetos()
+			menu_reivindicacoes()
 		elif opt=="5":
 			print("Obrigado por usar o sistema de achados e perdidos")
 			break
