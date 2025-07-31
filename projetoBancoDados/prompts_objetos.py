@@ -40,6 +40,15 @@ def prompt_add_objeto():
     if not Ocor:
         Ocor = None
     Opessoa_entregou = input("Matrícula da pessoa que entregou (opcional, deixe em branco se não houver): ")
+    while Opessoa_entregou:
+        from connection import cursor_var
+        comando_check = f"SELECT PessoaMatricula FROM Pessoa WHERE PessoaMatricula = '{Opessoa_entregou}'"
+        cursor_var.execute(comando_check)
+        resultado = cursor_var.fetchone()
+        if resultado:
+            break
+        print("Matrícula não encontrada. Por favor, digite uma matrícula válida ou deixe em branco.")
+        Opessoa_entregou = input("Matrícula da pessoa que entregou (opcional, deixe em branco se não houver): ")
     if not Opessoa_entregou:
         Opessoa_entregou = None
 
@@ -67,6 +76,7 @@ def prompt_remove_objeto():
 # Menu de editar objeto
 def prompt_edit_objeto():
     print("\n--- Editar Objeto Perdido ---")
+    read_and_print_objetos()
     try:
         objeto_id = int(input("Qual o ID do objeto a ser editado? "))
 
