@@ -1,6 +1,7 @@
 from connection import *
 from prompts_pessoas import *
 from prompts_objetos import *
+from prompts_ocorrencias import *
 
 
 def menu():
@@ -19,7 +20,7 @@ def menu():
 		elif opt=="2":
 			menu_objetos()
 		elif opt=="3":
-			menu_objetos()
+			menu_ocorrencias()
 		elif opt=="4":
 			menu_objetos()
 		elif opt=="5":
