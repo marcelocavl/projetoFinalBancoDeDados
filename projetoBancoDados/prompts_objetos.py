@@ -107,6 +107,20 @@ def prompt_edit_objeto():
 
         novo_valor = input(f"Digite o novo valor para '{campo_a_editar}': ")
 
+        # Checagem de matrícula válida se campo for pessoa_entregou
+        if campo_a_editar == "pessoa_entregou" and novo_valor:
+            while novo_valor:
+                from connection import cursor_var
+                comando_check = f"SELECT PessoaMatricula FROM Pessoa WHERE PessoaMatricula = '{novo_valor}'"
+                cursor_var.execute(comando_check)
+                resultado = cursor_var.fetchone()
+                if resultado:
+                    break
+                print("Matrícula não encontrada. Por favor, digite uma matrícula válida ou deixe em branco.")
+                novo_valor = input("Matrícula da pessoa que entregou (opcional, deixe em branco se não houver): ")
+            if not novo_valor:
+                novo_valor = None
+
         if novo_valor.strip() == "":
             novo_valor = None
 
