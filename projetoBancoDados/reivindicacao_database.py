@@ -117,7 +117,10 @@ def read_and_print_reivindicacoes():
     from connection import get_connection, get_cursor
     connection = get_connection()
     cursor_var = get_cursor()
-    comando = """SELECT * FROM Reivindicacao"""
+    comando = """SELECT Reivindicacao.ReivindicacaoID, Objeto.ObjetoID, Objeto.Titulo, Pessoa.PessoaMatricula, Pessoa.Pnome, Ocorrencia_Perda.OcorrenciaID, Reivindicacao.Data_retirada FROM Reivindicacao 
+                LEFT JOIN Objeto ON Reivindicacao.Objeto_reivindicado_ID = Objeto.ObjetoID
+                LEFT JOIN Pessoa ON Reivindicacao.Pessoa_retirou = Pessoa.PessoaMatricula
+                LEFT JOIN Ocorrencia_Perda ON Reivindicacao.Ocorrencia_ID = Ocorrencia_Perda.OcorrenciaID"""
 
     try:
         cursor_var.execute(comando)
@@ -128,17 +131,19 @@ def read_and_print_reivindicacoes():
             return
 
         print("\n--- Lista de Reivindicações ---")
-        print(f"{'ID Reiv.':<10} | {'ID Objeto':<10} | {'Pessoa (Matrícula)':<20} | {'ID Ocorrência':<15} | {'Data Retirada':<15}")
-        print("-" * 85)
+        print(f"{'ID Reiv.':<10} | {'ID Objeto':<10} | {'Objeto':<10} | {'Pessoa (Matrícula)':<20} | {'Pessoa (Nome)':<20} | {'ID Ocorrência':<15} | {'Data Retirada':<15}")
+        print("-" * 150)
 
         for registro in registros:
             reivindicacao_id = registro[0]
             objeto_id = registro[1]
-            pessoa_retirou = registro[2] if registro[2] else "N/A"
-            ocorrencia_id = registro[3] if registro[3] else "N/A"
-            data_retirada = registro[4].strftime("%Y-%m-%d") if hasattr(registro[4], 'strftime') else str(registro[4])
+            objeto_titulo = registro[2] if registro[2] else "N/A"
+            pessoa_retirou = registro[3] if registro[3] else "N/A"
+            nome_pessoa = registro[4] if registro[4] else "N/A"
+            ocorrencia_id = registro[5] if registro[5] else "N/A"
+            data_retirada = registro[6].strftime("%Y-%m-%d") if hasattr(registro[6], 'strftime') else str(registro[6])
 
-            print(f"{reivindicacao_id:<10} | {objeto_id:<10} | {pessoa_retirou:<20} | {str(ocorrencia_id):<15} | {data_retirada:<15}")
+            print(f"{reivindicacao_id:<10} | {objeto_id:<10} | {objeto_titulo:<10} | {pessoa_retirou:<20} | {nome_pessoa:<20} | {ocorrencia_id:<15} | {data_retirada:<15}")
 
         print("\nLeitura de reivindicações finalizada.")
 
