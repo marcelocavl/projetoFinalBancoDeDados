@@ -102,7 +102,7 @@ def read_and_print_objetos():
     from connection import cursor_var
     from connection import connection
 
-    comando = """SELECT * FROM Objeto"""
+    comando = """SELECT * FROM Objeto LEFT JOIN Pessoa ON Objeto.Pessoa_entregou = Pessoa.PessoaMatricula"""
 
     try:
         cursor_var.execute(comando)
@@ -113,8 +113,8 @@ def read_and_print_objetos():
             return
 
         print("\n--- Lista de Objetos Perdidos ---")
-        print(f"{'ID':<5} | {'Título':<25} | {'Cor':<15} | {'Descrição':<30} | {'Data Encontrado':<20} | {'Local':<20} | {'Entregue Por':<15} | {'Reivindicado':<12}")
-        print("-" * 170)
+        print(f"{'ID':<5} | {'Título':<25} | {'Cor':<15} | {'Descrição':<30} | {'Data Encontrado':<20} | {'Local':<20} | {'Entregue Por':<15} | {'Nome':<20} | {'Contato':<15} | {'Reivindicado':<12}")
+        print("-" * 205)
 
         for registro in registros:
             objeto_id = registro[0]
@@ -125,8 +125,10 @@ def read_and_print_objetos():
             local_encontrado = registro[5]
             pessoa_entregou = registro[6] if registro[6] is not None else "N/A"
             reinvidicado = "Sim" if registro[7] else "Não"
+            nome_pessoa = registro[9] if registro[9] is not None else "N/A"
+            contato_pessoa = registro[10] if registro[10] is not None else "N/A"
 
-            print(f"{objeto_id:<5} | {titulo:<25} | {cor:<15} | {descricao:<30} | {data_encontrado:<20} | {local_encontrado:<20} | {pessoa_entregou:<15} | {reinvidicado:<12}")
+            print(f"{objeto_id:<5} | {titulo:<25} | {cor:<15} | {descricao:<30} | {data_encontrado:<20} | {local_encontrado:<20} | {pessoa_entregou:<15} | {nome_pessoa:<20} | {contato_pessoa:<15} | {reinvidicado:<12}")
 
         print("\nLeitura de objetos finalizada.")
 
