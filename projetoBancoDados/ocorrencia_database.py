@@ -80,7 +80,7 @@ def read_and_print_ocorrencias():
     from connection import cursor_var
     from connection import connection
 
-    comando = """SELECT * FROM Ocorrencia_Perda"""
+    comando = """SELECT * FROM Ocorrencia_Perda LEFT JOIN Pessoa ON Ocorrencia_Perda.Pessoa_perdeu = Pessoa.PessoaMatricula"""
 
     try:
         cursor_var.execute(comando)
@@ -91,8 +91,8 @@ def read_and_print_ocorrencias():
             return
 
         print("\n--- Lista de Ocorrências de Perda ---")
-        print(f"{'ID':<5} | {'Tipo Objeto':<20} | {'Data Perdido':<15} | {'Local Perdido':<20} | {'Pessoa Perdeu':<15}")
-        print("-" * 80)
+        print(f"{'ID':<5} | {'Tipo Objeto':<20} | {'Data Perdido':<15} | {'Local Perdido':<20} | {'Pessoa Perdeu':<15} | {'Nome':<20} | {'Contato':<15}")
+        print("-" * 130)
 
         for registro in registros:
             ocorrencia_id = registro[0]
@@ -100,7 +100,10 @@ def read_and_print_ocorrencias():
             data_perdido = registro[2].strftime("%Y-%m-%d") if hasattr(registro[2], 'strftime') else str(registro[2])
             local_perdido = registro[3] if registro[3] is not None else "N/A"
             pessoa_perdeu = registro[4] if registro[4] is not None else "N/A"
-            print(f"{ocorrencia_id:<5} | {tipo_objeto:<20} | {data_perdido:<15} | {local_perdido:<20} | {pessoa_perdeu:<15}")
+            nome_pessoa = registro[6] if registro[6] is not None else "N/A"
+            contato_pessoa = registro[7] if registro[7] is not None else "N/A"
+            print(f"{ocorrencia_id:<5} | {tipo_objeto:<20} | {data_perdido:<15} | {local_perdido:<20} | {pessoa_perdeu:<15} | {nome_pessoa:<20} | {contato_pessoa:<15}")
+
 
         print("\nLeitura de ocorrências finalizada.")
 

@@ -1,6 +1,6 @@
 CREATE DATABASE AchadosEPerdidos;
 
-USE AchadosEPerdidos
+USE AchadosEPerdidos;
 
 CREATE TABLE Pessoa (
     PessoaMatricula VARCHAR(50) PRIMARY KEY NOT NULL UNIQUE,
